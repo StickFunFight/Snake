@@ -24,6 +24,8 @@
 
         const Death = new Audio('Sounds/death.mp3');
 
+        const AchtergrondMuziekje = new Audio('Sounds/Brodyquest.mp3');
+
         Apple.src = 'Images/Apple.png';
         Slang.src = 'Images/SnakeRechts.png';
         Lichaam.src = 'Images/LichaamHorizonTaal.png';
@@ -115,6 +117,7 @@
         }
 
         document.addEventListener('keydown', function(e) {
+            AchtergrondMuziekje.play();
             if (Richting !== 'Onder') {
                 if (e.key === 'w') {
                     Richting = 'Boven';
