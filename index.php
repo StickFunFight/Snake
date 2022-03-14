@@ -1,13 +1,33 @@
+<style>
+    canvas {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        background-color: aqua;
+    }
+</style>
 <canvas id="SnakeVeld" style="border-style: solid;border-width: 5px;   margin: auto;
   width: 50%;" width="420" height="320">
 </canvas>
+
+
 <script>
     window.onload = function() {
-
         const Apple = new Image();
         const Slang = new Image();
-        Apple.src = 'Apple..png';
-        Slang.src = 'SnakeRechts.png';
+        const Lichaam = new Image();
+        const Staart = new Image();
+
+        const Chomp = new Audio('Sounds/Chomp.mp3');
+
+        const Death = new Audio('Sounds/death.mp3');
+
+        Apple.src = 'Images/Apple.png';
+        Slang.src = 'Images/SnakeRechts.png';
+        Lichaam.src = 'Images/LichaamHorizonTaal.png';
+        Staart.src = 'Images/StaartRechts.png';
 
         var x = 20;
         var y = 20;
@@ -27,6 +47,8 @@
 
         var lengteSlangetje = 0;
 
+
+
         let snake = [{x: 200, y: 200}, {x: 190, y: 200}, {x: 180, y: 200}, {x: 170, y: 200}, {x: 160, y: 200}];
 
 
@@ -42,9 +64,10 @@
         }
 
 
-        setInterval(teken, 50);
-        setInterval(beweeg, 150);
-        setInterval(spawnRoodDing, 50);
+            setInterval(teken, 30);
+            setInterval(beweeg, 130);
+            setInterval(spawnRoodDing, 50);
+
 
         function teken() {
             ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -54,7 +77,19 @@
             ctx.fillStyle = ctx.createPattern(Slang, 'repeat');
 
             ctx.fillRect(x, y, 20, 20);
+            ctx.closePath();
 
+            ctx.beginPath();
+            ctx.fillStyle = ctx.createPattern(Lichaam, 'repeat');
+
+            ctx.fillRect(x-20, y, 20, 20);
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.fillStyle = ctx.createPattern(Staart, 'repeat');
+
+            ctx.fillRect(x-40, y, 20, 20);
             ctx.closePath();
 
             ctx.fillStyle = ctx.createPattern(Apple, 'repeat');
@@ -67,6 +102,7 @@
             }
 
             if (x > 420 || y > 300 || y < 0 || x < 0) {
+                Death.play();
                 ctx.fillStyle = 'red';
                 ctx.fillRect(0, 0, 420, 320);
                 ctx.font      = '30px Comic Sans MS';
@@ -74,6 +110,7 @@
                 ctx.textAlign = 'center';
                 ctx.fillText('Game over', test.width / 2, test.height / 2);
                 Richting = 'Niet';
+
             }
         }
 
@@ -81,25 +118,25 @@
             if (Richting !== 'Onder') {
                 if (e.key === 'w') {
                     Richting = 'Boven';
-                    Slang.src = 'SnakeUp.png';
+                    Slang.src = 'Images/SnakeUp.png';
                 }
             }
             if (Richting !== 'Boven') {
                 if (e.key === 's') {
                     Richting = 'Onder';
-                    Slang.src = 'SnakeDown.png';
+                    Slang.src = 'Images/SnakeDown.png';
                 }
             }
             if (Richting !== 'Rechts') {
                 if (e.key === 'a') {
                     Richting = 'Links';
-                    Slang.src = 'SnakeLinks.png';
+                    Slang.src = 'Images/SnakeLinks.png';
                 }
             }
             if (Richting !== 'Links') {
                 if (e.key === 'd') {
                     Richting = 'Rechts';
-                    Slang.src = 'SnakeRechts.png';
+                    Slang.src = 'Images/SnakeRechts.png';
                 }
             }
             if (e.key === 'Escape') {
@@ -139,6 +176,7 @@
 
         function groeiLekker() {
             lengteSlangetje++;
+            Chomp.play();
             spawnRoodDing();
             console.log(lengteSlangetje);
         }
