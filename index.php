@@ -104,7 +104,6 @@
             }
 
             if (x > 420 || y > 300 || y < 0 || x < 0) {
-                Death.play();
                 ctx.fillStyle = 'red';
                 ctx.fillRect(0, 0, 420, 320);
                 ctx.font      = '30px Comic Sans MS';
@@ -112,12 +111,13 @@
                 ctx.textAlign = 'center';
                 ctx.fillText('Game over', test.width / 2, test.height / 2);
                 Richting = 'Niet';
-
+                Death.play();
             }
         }
 
         document.addEventListener('keydown', function(e) {
             AchtergrondMuziekje.play();
+            AchtergrondMuziekje.volume = 0.1;
             if (Richting !== 'Onder') {
                 if (e.key === 'w') {
                     Richting = 'Boven';
